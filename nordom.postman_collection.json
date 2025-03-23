@@ -1,0 +1,915 @@
+{
+	"info": {
+		"_postman_id": "f68abc6e-1162-47ee-83f0-40307db8d0f6",
+		"name": "nordom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32591259"
+	},
+	"item": [
+		{
+			"name": "Core Balances Api",
+			"item": [
+				{
+					"name": "positive cases",
+					"item": [
+						{
+							"name": "Balances",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Balances with Asset",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a/PEPE",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a",
+										"PEPE"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / lock",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "f35d4855-c4f4-411a-95d3-6cfad5cffe1c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"asset\": \"EUR\",\r\n  \"amount\": 4444\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/lock",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / Unlock",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "b230b067-4dbf-4828-b83c-67b50db79594",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"asset\": \"PEPE\",\r\n  \"amount\": 4444\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/unlock",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"unlock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / withdraw",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											" pm.collectionVariables.set(\"guID\",generateGUID())\r",
+											"console.log(generateGUID());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"asset\": \"EUR\",\r\n  \"amount\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/withdraw",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - correctly 1-1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											" pm.collectionVariables.set(\"guID\",generateGUID())\r",
+											"console.log(generateGUID());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 1,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - spendAmount 1.1234",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 1.1234,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - spendAmount is max boundary",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 99.99,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - spendAmount is MIN boundary",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 0.01,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / internal-transaction",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											" pm.collectionVariables.set(\"guID\",generateGUID())\r",
+											"console.log(generateGUID());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "f75da9a0-bfac-4a88-a682-c16de0decabd",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"spendUserId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"receiveUserId\": \"329a780b-82e4-4c9c-ad6b-d4997d6c2e9e\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"EUR\",\r\n  \"spendAmount\": 10,\r\n  \"receiveAmount\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/internal-transaction",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"internal-transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative cases",
+					"item": [
+						{
+							"name": "balances / instant - same Idenpodency",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "116ade12-770d-406b-89b6-0c6c6092d2da",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 1,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - spendAmount is  -20",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": -20,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "balances / instant - spendAmount is 0",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function generateGUID() {\r",
+											"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+											"        const r = Math.random() * 16 | 0; \r",
+											"        const v = c === 'x' ? r : (r & 0x3 | 0x8); \r",
+											"        return v.toString(16);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"const guid = generateGUID();\r",
+											"pm.collectionVariables.set(\"guID\", guid);\r",
+											"\r",
+											"console.log(guid);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "{{guID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"0dd2fe87-73fc-4ff7-b653-3f5210c1eb8a\",\r\n  \"spendAssetCode\": \"EUR\",\r\n  \"receiveAssetCode\": \"ETH\",\r\n  \"spendAmount\": 0,\r\n   \"receiveAmount\": 1\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.100.200.25:5212/api/v1/balances/instant",
+									"protocol": "http",
+									"host": [
+										"10",
+										"100",
+										"200",
+										"25"
+									],
+									"port": "5212",
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"instant"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "guID",
+			"value": ""
+		}
+	]
+}
